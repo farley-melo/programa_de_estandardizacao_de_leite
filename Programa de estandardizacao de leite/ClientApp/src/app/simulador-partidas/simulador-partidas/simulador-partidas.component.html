@@ -1,0 +1,267 @@
+<div class="diminuir col-1" id="impressao">
+  <div>
+    <form [formGroup]="formularioValoresInputados">
+      <div class="container-fluid mt-5">
+        <div class="form-inline">
+          <div class="form-group bg-dark">
+            <label class="text-danger h3">Balança:</label>
+            <select formControlName="balanca" class="form-control">
+              <option>T501</option>
+              <option>T502</option>
+              <option>T503</option>
+            </select>
+            <label class="text-danger h3 ml-4 ">Numero da partida:</label>
+            <input type="text" class="form-control" formControlName="numeroDaPartida">
+            <label class="text-danger h3 ml-4">Data:</label>
+            <input type="text" class="form-control" style="margin-right: 2px"
+                   [bsValue]="formularioValoresInputados?.get('data')?.value"
+                   [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY'}"
+                   formControlName="data" bsDatepicker>
+          </div>
+        </div>
+      </div>
+      <div class="container-fluid  mt-5 ">
+        <div>
+          <div class="lableWidth"><label><h3>Insira os dados:</h3></label></div>
+          <table class="table table-bordered bg-light table-sm offset-sm-1">
+            <thead class="thead-dark">
+            <tr>
+              <th scope="col">Tanque</th>
+              <th scope="col">Materia prima</th>
+              <th scope="col">Codigo pel</th>
+              <th scope="col">Densidade</th>
+              <th scope="col">Quantidade total</th>
+              <th scope="col">Analise gordura</th>
+              <th scope="col">Analise snf</th>
+              <th scope="col">Quantidade</th>
+              <th scope="col">Kg gordura</th>
+              <th scope="col">Kg snf</th>
+            </tr>
+            </thead>
+            <tbody formArrayName="linhas">
+            <tr *ngFor="let itemLinha of formArray.controls;let i=index;let l=last" [formGroupName]="i">
+              <td>
+                <select formControlName="tanque" (change)="carregarDadosDeAnaliseDoTanque(i)">
+                  <option></option>
+                  <option *ngFor="let deposito of listaDeDepositos">{{deposito.depositoNome}}</option>
+                </select>
+              </td>
+              <td>
+                <input formControlName="materiaPrima">
+              </td>
+              <input formControlName="codigoPel">
+              <td>
+                <input formControlName="densidade">
+              </td>
+              <td>
+                <input formControlName="quantidadeTotal">
+              </td>
+              <td><input formControlName="analiseGordura" class="bg-info"></td>
+              <td><input formControlName="analiseSnf" class="bg-info"></td>
+              <td><input formControlName="quantidade" (input)="atualizarDadosFormulario(i)"
+                         (focus)="atualizarDadosFormulario(i)" #quantidadeInput
+                         (click)="mostraMensagemDeInserirFormula()"
+                         (change)="atualizarDadosFormulario(i)"></td>
+              <td><input formControlName="kgGordura" class="bg-info"></td>
+              <td><input formControlName="kgSnf" class="bg-info"></td>
+              <td class="d-inline-block">
+                <input class="buttonSmall btn btn-success" type="button" value="+" #botaoAdicionar
+                       (click)="adicionarNovaLinha()" *ngIf="formArray.controls[i].get('quantidade')?.valid">
+                <input class="buttonSmall ml-1 btn btn-danger" type="button" value="-"
+                       *ngIf="formArray.controls.length>1"
+                       (click)="deletarLinhas(i)">
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <button class="btn btn-success " (click)="autoCalcularLightSemLactose()"
+                *ngIf="formulaEscolhidaNome=='0'&&verificarSequenciaMateriasPrimasAutoCalcularLightSemLactose()=='autoCalcularLightSemLactose'">
+          Auto calcular
+        </button>
+        <button class="btn btn-success " (click)="autoCalcularLightComLactose()"
+                *ngIf="formulaEscolhidaNome=='0'&&verificarSequenciaMateriasPrimasAutoCalcularLightComLactose()=='autoCalcularLightComLactose'">
+          Auto calcular
+        </button>
+        <button class="btn btn-success " (click)="autoCalcular4E6SemLactose()"
+                *ngIf="(formulaEscolhidaNome=='4'||formulaEscolhidaNome=='6')&&verificarSequenciaMateriasPrimasAutoCalcular4E6SemLactose()=='autoCalcular4ESemLactose'">
+          Auto calcular
+        </button>
+        <button class="btn btn-success " (click)="autoCalcular4E6ComLactose()"
+                *ngIf="(formulaEscolhidaNome=='4'||formulaEscolhidaNome=='6')&&verificarSequenciaMateriasPrimasAutoCalcular4E6ComLactose()=='autoCalcular4E6ComLactose'">
+          Auto calcular
+        </button>
+        <button class="btn btn-success " (click)="autoCalcularSemLactose8()"
+                *ngIf="formulaEscolhidaNome=='8.10'&&verificarSequenciaMateriasPrimasAutoCalcular8SemLactose()=='autoCalcular8SemLactose'">
+          Auto calcular
+        </button>
+        <button class="btn btn-success " (click)="autoCalcularComLactose8()"
+                *ngIf="formulaEscolhidaNome=='8.10'&&verificarSequenciaMateriasPrimasAutoCalcular8ComLactose()=='autoCalcular8ComLactose'">
+          Auto calcular
+        </button>
+      </div>
+    </form>
+    <form [formGroup]="formularioTotalPartidaTotalEsperado">
+      <div class="container-fluid offset-sm-1 mb-5">
+        <div>
+          <table>
+            <tbody>
+            <tr>
+              <td class="empty"><input></td>
+              <td class="empty"><input></td>
+              <td class="empty"><input></td>
+              <td class="empty"><input></td>
+              <td class="empty"><input></td>
+              <td class="empty"><input></td>
+              <td><input value="Total partida" disabled></td>
+              <td><input formControlName="totalQuantidade" readonly></td>
+              <td><input formControlName="totalGordura" class="text-danger" readonly></td>
+              <td><input formControlName="totalSnf" class="text-danger" readonly></td>
+            </tr>
+
+            <tr>
+              <td class="empty"><input></td>
+              <td class="empty"><input></td>
+              <td class="empty"><input></td>
+              <td class="empty"><input></td>
+              <td class="empty"><input></td>
+              <td><input class="empty"></td>
+              <td><input class="empty"></td>
+              <td><input value="Total esperado" disabled></td>
+              <td><input formControlName="totalEsperadoGordura" readonly class="bg-success"></td>
+              <td><input formControlName="totalEsperadoSnf" readonly class="bg-success"></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </form>
+    <form [formGroup]="formularioVariaves" class="row ml-3">
+      <table class="table table-bordered bg-light table-sm col-1 offset-1 mt-3">
+        <thead class="thead-dark">
+        <tr>
+          <th scope="col">Escolha uma formula</th>
+          <th scope="col">Fator açucar mínimo</th>
+          <th scope="col">Fator açucar objetivo</th>
+          <th scope="col">Fator açucar maximo</th>
+          <th scope="col">RF minimo</th>
+          <th scope="col" Rf>RF objetivo</th>
+          <th scope="col">RF maximo</th>
+          <th scope="col">Açucar</th>
+          <th scope="col">Tf objetivo</th>
+          <th scope="col">TF</th>
+          <th scope="col">Fator açucar atual</th>
+          <th scope="col">RF atual</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>
+            <select formControlName="formulas" [compareWith]="compararFormulas" class="bg-info">
+              <option *ngFor="let formula of listaDeFormulas" [ngValue]="formula">{{formula.gordura}}</option>
+            </select>
+          </td>
+          <td><input formControlName="fatorAcucarMinimo" class="bg-info "></td>
+          <td><input formControlName="fatorAcucar" class="bg-info "></td>
+          <td><input formControlName="fatorAcucarMaximo" class="bg-info "></td>
+          <td><input formControlName="rfMinimo" class="bg-info inputEstatistica"></td>
+          <td><input formControlName="rf" class="bg-info "></td>
+          <td><input formControlName="rfMaximo" class="bg-info inputEstatistica"></td>
+          <td><input formControlName="acucar" class="inputEstatistica "></td>
+          <td><input formControlName="tfObjetivo" class="inputEstatistica"></td>
+          <td><input formControlName="tf" class="bg-danger inputEstatistica"></td>
+          <td><input formControlName="fatorAcucarAtual" class="bg-danger inputEstatistica "></td>
+          <td><input formControlName="rfAtual" class="bg-danger inputEstatistica "></td>
+        </tr>
+        </tbody>
+      </table>
+    </form>
+    <form [formGroup]="formularioEstatisticoPartida" class="row ml-3">
+      <table class="table  table-bordered bg-light table-sm col-1 offset-1 mt-3">
+        <thead class="thead-dark">
+        <tr>
+          <th scope="col">Total de solidos da partida</th>
+          <th scope="col">Total da partida após evaporação</th>
+          <th scope="col">Porcentagem de gordura após evaporação</th>
+          <th scope="col">Porcentagem de snf após evaporação</th>
+          <th scope="col">Porcentagem de açucar após evaporação</th>
+          <th scope="col">Tc(base para cálculo)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td><input class="bg-info inputEstatistica" formControlName="totalDeSolidosDaPartida">
+          </td>
+          <td><input readonly class="bg-info inputEstatistica" formControlName="totalDaPartida">
+          </td>
+          <td><input class="bg-info inputEstatistica" formControlName="gorduraDaPartida"></td>
+          <td><input readonly class="bg-info inputEstatistica" formControlName="snfDaPartida"></td>
+          <td><input readonly class="bg-info inputEstatistica" formControlName="acucarDaPartida"></td>
+          <td><input class="inputEstatistica" formControlName="tcDaPartida"></td>
+        </tr>
+        </tbody>
+      </table>
+    </form>
+
+
+  </div>
+</div>
+
+<div class="form-inline col-12 offset-3 mb-3">
+  <button printSectionId="impressao" ngxPrint [useExistingCss]="true" class="btn btn-success buttonLarge ">Imprimir
+  </button>
+  <button class="btn btn-danger buttonLarge ml-3 " *ngIf="exibirBotaoDeduzirDoEstoque()">Deduzir do estoque</button>
+</div>
+
+
+<ng-template #template>
+  <div class="modal-header bg-success">
+    <label class=" container-fluid ">
+      <h4 class="modal-title pull-left" style="text-align: center">Antes de inserir a quantidade escolha uma
+        formula</h4>
+    </label>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+</ng-template>
+
+
+<ng-template #valorIncorreto>
+  <div class="modal-header bg-danger">
+    <label class=" container-fluid ">
+      <h4 class="modal-title pull-left" style="text-align: center">{{this.modalRef.content}}</h4>
+    </label>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #escollherMateriaPrima class="row">
+  <div class="modal-body text-center form-check-inline">
+    <p>Este tanque possui mais de um código de materia prima.Qual materia prima você deseja usar?</p>
+    <div *ngFor="let materiaPrima of  this.modalRefSelecaoMateriaPrima.content;let i=index" class="col-4">
+      <button type="button" class="btn btn-primary buttonExtraLarge" (click)="carregarDadosMateriaPrimaQuandoHouverMaisDeUma(materiaPrima)" >{{this.modalRefSelecaoMateriaPrima.content[i].nomeMateriaPrima}}</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #errorLinhaRepetida>
+  <div class="modal-header bg-danger row" >
+    <h4 class="modal-title pull-left offset-2">Já existe uma linha adicionada com o mesmo tanque e mesmo codigo de materia prima</h4>
+  </div>
+</ng-template>
+
+
+
+
+
+
+
+
+
+
+
+
+

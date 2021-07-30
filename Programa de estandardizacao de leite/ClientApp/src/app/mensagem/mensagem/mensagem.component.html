@@ -1,0 +1,11 @@
+<form class="jumbotron background font"[formGroup]="mensagemForm" style="scroll-behavior: unset">
+  <div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="caixa1" class="sr-only">Email</label>
+        <textarea class="mt-5 offset-4" id="caixa1" formControlName="mensagem" #textAreaElement></textarea>
+      </div>
+    </div>
+    <button class="btn btn-success offset-6 mr-3" (click)="salvarMensagem()">Salvar</button>
+  </div>
+</form>

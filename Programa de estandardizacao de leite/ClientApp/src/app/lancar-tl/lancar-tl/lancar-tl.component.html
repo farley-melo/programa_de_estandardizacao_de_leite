@@ -1,0 +1,96 @@
+<div class="card text-center mt-3 font">
+  <div class="card-header">
+    <h1>Cadastrar matérias primas recebidas na unidade</h1>
+  </div>
+  <div class="card-body">
+    <form class="bg-light" [formGroup]="formularioEntradaMateriasPrimas">
+      <div class="form-group">
+        <label for="data">Data</label>
+        <input type="text" class="form-control text-danger" [bsValue]="formularioEntradaMateriasPrimas?.get('data')?.value"  [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }" id="data" bsDatepicker style="text-align: center" formControlName="data">
+      </div>
+      <div class="form-group">
+        <label for="data">Tanque para descarregamento</label>
+        <select class="custom-select bg-info font-weight-bolder" id="tanqueDescarregamento" formControlName="tanque" [compareWith]="compareFnTanque">
+          <option *ngFor="let deposito of listaDeDepositos" [ngValue]="deposito" style="text-align-all: center">{{deposito}}</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <label for="gordura">Gordura</label>
+          <input type="text" class="form-control" id="gordura" formControlName="gordura"style="text-align: center" >
+        </div>
+        <div class="form-group col-md-4">
+          <label for="snf">Snf</label>
+          <input type="text" class="form-control" id="snf" formControlName="snf"style="text-align: center">
+        </div>
+        <div class="form-group col-md-4">
+          <label for="crioscopia">Crioscopia</label>
+          <input type="text" class="form-control" id="crioscopia" formControlName="crioscopia"style="text-align: center">
+        </div>
+        <div class="form-group col-md-4">
+          <label for="densidade">Densidade</label>
+          <input type="text" class="form-control" id="densidade" formControlName="densidade"style="text-align: center">
+        </div>
+        <div class="form-group col-md-4">
+          <label for="acidez">Acidez</label>
+          <input type="text" class="form-control" id="acidez" formControlName="acidez"style="text-align: center">
+        </div>
+        <div class="form-group col-md-4">
+          <label for="notaFiscal">Nota fiscal</label>
+          <input type="text" class="form-control" id="notaFiscal" formControlName="notaFiscal"style="text-align: center">
+        </div>
+        <div class="form-group col-md-4">
+          <label for="transportadora">Transportadora</label>
+          <input type="text" class="form-control" id="transportadora" formControlName="transportadora"style="text-align: center">
+        </div>
+        <div class="form-group col-md-4">
+          <label for="codigoCarreta">Codigo da carreta</label>
+          <input type="text" class="form-control" id="codigoCarreta" formControlName="codigoCarreta"style="text-align: center">
+        </div>
+        <div class="form-group col-md-4">
+          <label for="kilosRecebidos">Kilos recebidos</label>
+          <input type="text" class="form-control" id="kilosRecebidos" formControlName="kilosRecebidos"style="text-align: center">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="materiaPrima">Materia Prima-Descrição/Procedencia</label>
+          <select  class="custom-select bg-info font-weight-bolder" id="materiaPrima" formControlName="materiaPrima"style="text-align: center" [compareWith]="compareFnMateriaPrima">
+            <option *ngFor="let materiaPrima of listaDeMateriasPrimas" [ngValue]="materiaPrima">{{materiaPrima}}</option>
+          </select>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="codigoMateriaPrima">Codigo da materia prima</label>
+          <input type="text" class="form-control" id="codigoMateriaPrima" formControlName="codigoMateriaPrima"style="text-align: center"readonly>
+        </div>
+        <div class="form-group col-md-2">
+          <label for="temperatura">Temperatura</label>
+          <input type="text" class="form-control" id="temperatura" formControlName="temperatura"style="text-align: center" >
+        </div>
+      </div>
+    </form>
+    <div class="card-footer text-muted">
+      <button class="btn btn btn-success" (click)="salvar()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<ng-template #errorTemplate>
+  <div class="modal-header bg-danger">
+    <h4 class="modal-title pull-left">Lista de erros</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)=" referenciaModalError.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <ul>
+      <li *ngFor="let erro of referenciaModalError.content">{{erro}}</li>
+    </ul>
+  </div>
+</ng-template>
+
+<ng-template #sucessTemplate>
+  <div class="modal-header bg-success row" >
+    <h4 class="modal-title pull-left offset-2">Tl cadastrado com sucesso</h4>
+  </div>
+</ng-template>
+
+

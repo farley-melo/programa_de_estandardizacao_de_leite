@@ -1,0 +1,59 @@
+input{
+  width: 230px;
+  height: 30px;
+  text-align: center;
+}
+.inputMateriaPrima{
+  width: 260px;
+  height: 30px;
+  text-align: center;
+}
+td{
+  width: 50px;
+  padding: 0px;
+}
+.empty {
+  visibility:hidden;
+}
+.table{
+  width: auto;
+}
+select{
+  width: 230px;
+  height: 30px;
+  text-align-last:center;
+}
+button{
+  width: 130px;
+  height: 30px;
+}
+th{
+  text-align: center;
+}
+.buttonSmall{
+  width: 20px;
+  height: 30px;
+  padding: 0px;
+}
+.buttonLarge{
+  width: 130px;
+  height: 60px;
+}
+.buttonExtraLarge{
+  width: 130px;
+  height: 250px;
+}
+.inputEstatistica{
+  width: 180px;
+  padding: 0px;
+}
+.lableWidth{
+  width: 200px;
+  padding: 0px;
+}
+
+.diminuir{
+  transform: scaleX(0.70);
+  transform: translateY(0.65);
+
+}

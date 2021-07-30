@@ -1,0 +1,71 @@
+<div class="card font mt-3">
+  <div class="card-header">
+    <h3 class="offset-4">Cadastro de depositos para materias primas</h3>
+  </div>
+  <div class="card-body">
+    <form [formGroup]="formularioCadastro">
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="nome">Nome</label>
+          <input type="text" class="form-control" id="nome" formControlName="nome">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="capacidade">Capacidade</label>
+          <input type="text" class="form-control" id="capacidade" formControlName="capacidade" (keypress)="somenteNumeros($event)">
+        </div>
+      </div>
+      <button  class="btn btn-success" (click)="cadastrar()">Cadastrar</button>
+    </form>
+  </div>
+</div>
+
+<div class="card font mt-3 scroll">
+  <div class="card-header">
+    <h3 class="offset-4">Depositos cadastrados até agora</h3>
+  </div>
+  <div class="card-body">
+    <form>
+      <div class="form-row bg-warning" *ngFor="let deposito of listaDepositos;let i=index">
+        <div class="form-group col-md-3">
+          <label for="nome2">Nome</label>
+          <input type="text" class="form-control" id="nome2" value="{{deposito.nome}}"disabled>
+        </div>
+        <div class="form-group col-md-3">
+          <label for="capacidade2">Capacidade</label>
+          <input type="text" class="form-control" id="capacidade2" value="{{deposito.capacidade}}"disabled >
+        </div>
+        <div class="form-inline col-md-3 mt-4">
+          <button class="btn btn-danger" (click)="excluirEstoque(i)">Excluir</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<ng-template #errorTemplate>
+  <div class="modal-header bg-danger">
+    <h4 class="modal-title pull-left">Lista de erros</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)=" referenciaModalError.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <ul>
+      <li *ngFor="let erro of referenciaModalError.content">{{erro}}</li>
+    </ul>
+  </div>
+</ng-template>
+
+<ng-template #desejaDeletartemplate>
+  <div class="modal-body text-center">
+    <p>Voce deseja realmente excluir este estoque?</p>
+    <button type="button" class="btn btn-default" (click)="confirm()" >Sim</button>
+    <button type="button" class="btn btn-primary" (click)="decline()" >Não</button>
+  </div>
+</ng-template>
+
+<ng-template #sucessTemplate>
+  <div class="modal-header bg-success row" >
+    <h4 class="modal-title pull-left offset-2">Deposito cadastrado com sucesso</h4>
+  </div>
+</ng-template>

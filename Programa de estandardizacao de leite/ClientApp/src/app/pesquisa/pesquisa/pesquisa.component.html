@@ -1,0 +1,103 @@
+<form class="font" [formGroup]="pesquisaTlForm" #target>
+  <div class="card mt-3">
+    <div class="card-header" style="text-align: center">
+      Pesquisar lançamentos
+    </div>
+    <div class="card-body">
+      <h5>Pesquisar por data</h5>
+      <div class="form-row">
+        <div class="form-group col-md-3">
+          <label for="data">data</label>
+          <input readonly type="text" class="form-control" id="data" [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }"
+                 bsDatepicker
+                 formControlName="data" (focus)="resetarNota()">
+        </div>
+        <div class="form-group col-md-10">
+          <button class="btn btn-success" (click)="pesquisarPorData()">Pesquisar</button>
+        </div>
+      </div>
+      <hr>
+      <h5>Pesquisar por nota fiscal</h5>
+      <div class="form-row">
+        <div class="form-group col-md-3">
+          <label for="nota">Nota</label>
+          <input type="text" class="form-control" id="nota" formControlName="nota" (focus)="resetarData()">
+        </div>
+        <div class="form-group col-md-10">
+          <button class="btn btn-success" (click)="pesquisarPorNota()">Pesquisar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #naoEncontrado>
+    <div>Nenhum TL foi encontrado</div>
+  </ng-template>
+
+  <div *ngIf="naoContemErrors;else naoEncontrado">
+    <div class=" mt-3 container col-md-12">
+      <label>Filtro:</label>
+      <label for="entrada" class="ml-2">
+        <input type="checkbox" id="entrada">
+        Entrada
+      </label>
+      <label for="saida" class="ml-5">
+        <input type="checkbox" id="saida">
+        Saída
+      </label>
+    </div>
+    <table class="table mt-5 ml-1  mr-2" style="font-size: 12px">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">Data</th>
+        <th scope="col">Tanque</th>
+        <th scope="col">Gordura</th>
+        <th scope="col">Snf</th>
+        <th scope="col">Crioscopia</th>
+        <th scope="col">Densidade</th>
+        <th scope="col">Acidez</th>
+        <th scope="col">Nota fiscal</th>
+        <th scope="col">Transportadora</th>
+        <th scope="col">Codigo da carreta</th>
+        <th scope="col">Kilos Recebidos</th>
+        <th scope="col">Materias Primas</th>
+        <th scope="col">Codigo da materia prima</th>
+        <th scope="col">Temperatura</th>
+        <th scope="col"></th>
+      </tr>
+      </thead>
+      <tbody formArrayName="linhas">
+      <tr class="bg-success" *ngFor="let itemLinha of formArray.controls;let i=index" [formGroupName]="i">
+        <td><textarea formControlName="data"></textarea></td>
+        <td><textarea formControlName="tanque"></textarea></td>
+        <td><textarea formControlName="gordura"></textarea></td>
+        <td><textarea formControlName="snf"></textarea></td>
+        <td><textarea formControlName="crioscopia"></textarea></td>
+        <td><textarea formControlName="densidade"></textarea></td>
+        <td><textarea formControlName="acidez"></textarea></td>
+        <td><textarea formControlName="notaFiscal"></textarea></td>
+        <td><textarea formControlName="transportadora"></textarea></td>
+        <td><textarea formControlName="codigoCarreta"></textarea></td>
+        <td><textarea formControlName="kilosRecebidos"></textarea></td>
+        <td><textarea formControlName="materiaPrima"></textarea></td>
+        <td><textarea formControlName="codigoMateriaPrima"></textarea></td>
+        <td><textarea formControlName="temperatura"></textarea></td>
+        <td style="align-content: center">
+          <a  (click)="deletar(i)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                 class="bi bi-file-x-fill" viewBox="0 0 16 16">
+              <path
+                d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM6.854 6.146 8 7.293l1.146-1.147a.5.5 0 1 1 .708.708L8.707 8l1.147 1.146a.5.5 0 0 1-.708.708L8 8.707 6.854 9.854a.5.5 0 0 1-.708-.708L7.293 8 6.146 6.854a.5.5 0 1 1 .708-.708z"/>
+            </svg>
+          </a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</form>
+<ng-template #success>
+  <div class="alert-success" style="text-align: center"> Tl salvo com sucesso</div>
+</ng-template>
+
+
+

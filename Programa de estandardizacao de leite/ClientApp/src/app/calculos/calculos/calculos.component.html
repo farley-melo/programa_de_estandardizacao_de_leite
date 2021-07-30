@@ -1,0 +1,186 @@
+<div class="container-fluid mt-2">
+  <div>
+    <h1 class="offset-3 text-danger">Cálculo de composição de matérias primas</h1>
+  </div>
+  <div class="card text-center bg-success">
+    <div class="card-header ">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a class="nav-link" [ngClass]="leiteIntegralAtivo?'active':''" (click)="mostrarFormularioLeiteIntegral()">Leite integral</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [ngClass]="preCondensadoAtivo?'active':''"  (click)="mostrarFormularioPreCondensado()">Pre-condensado integral/Pre-condensado desnatado</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [ngClass]="cremeAtivo?'active':''" (click)="mostrarFormularioCreme()" >Creme</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link"[ngClass]="acidezAtivo?'active':''" (click)="mostrarFormularioAcidezPre()">Acidez pre-condensado</a>
+        </li>
+      </ul>
+    </div>
+    <div class="card-bod bg-dark">
+
+      <form class="mt-5 offset-3" [formGroup]="leiteIntegralForm" [hidden]="!leiteIntegralAtivo">
+        <div class="form-group row">
+          <label  class="col-sm-2 col-form-label text-white">Analise gordura Gebber</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control"
+                   currencyMask formControlName="gorduraLeite">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label text-white">Densidade(densímetro)</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control"
+                   currencyMask formControlName="densidadeLeite">
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-4 offset-3">
+            <input type="button" class="btn btn-primary" value="calcular" (click)="mostrarResultadoLeiteIntegral()">
+          </div>
+        </div>
+        <hr class="bg-light">
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label text-white">Snf resultante</label>
+          <div class="col-sm-4">
+            <input type="text" style="text-align: center" class="form-control bg-info" readonly formControlName="snfLeite">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label text-white">Tc resultante</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control bg-info"readonly style="text-align: center"  formControlName="tcLeite">
+          </div>
+        </div>
+      </form>
+
+      <form class="mt-5 offset-3" [formGroup]="preCondensadoForm" [hidden]="!preCondensadoAtivo">
+        <div class="form-group row">
+          <label  class="col-sm-2 col-form-label text-white">Analise gordura Gebber</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control"
+                   currencyMask formControlName="gorduraPre">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label text-white">Densidade(densímetro)</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control"
+                   currencyMask formControlName="densidadePre">
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-4 offset-3">
+            <input type="button" class="btn btn-primary" value="calcular" (click)="mostrarResultadosPreCondensado()">
+          </div>
+        </div>
+        <hr class="bg-light">
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label text-white">Snf resultante</label>
+          <div class="col-sm-4">
+            <input type="text" style="text-align: center" class="form-control bg-info" readonly formControlName="snfPre">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label text-white">Tc resultante</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control bg-info"readonly style="text-align: center"  formControlName="tcPre">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label text-white">Gordura calculada</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control bg-info"readonly style="text-align: center"  formControlName="gorduraCalculadaPre">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label text-white">Densidade calculada</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control bg-info"readonly style="text-align: center"  formControlName="densidadeCalculadaPre">
+          </div>
+        </div>
+      </form>
+
+      <form class="mt-5 offset-3" [formGroup]="cremeForm" [hidden]="!cremeAtivo">
+        <div class="form-group row">
+          <label  class="col-sm-2 col-form-label text-white">Analise gordura Gebber</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control"
+                   currencyMask formControlName="gorduraCreme">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label text-white">Densidade(densímetro)</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control"
+                   currencyMask formControlName="densidadeCreme">
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-4 offset-3">
+            <input type="button" class="btn btn-primary" value="calcular" (click)="mostrarResultadosCreme()">
+          </div>
+        </div>
+        <hr class="bg-light">
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label text-white">Snf resultante</label>
+          <div class="col-sm-4">
+            <input type="text" style="text-align: center" class="form-control bg-info" readonly formControlName="snfCreme">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label text-white">Tc resultante</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control bg-info"readonly style="text-align: center"  formControlName="tcCreme">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label text-white">Gordura calculada</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control bg-info"readonly style="text-align: center"  formControlName="gorduraCalculadaCreme">
+          </div>
+        </div>
+      </form>
+
+      <form class="mt-5 offset-3" [formGroup]="acidezPreForm" [hidden]="!acidezAtivo">
+        <div class="form-group row">
+          <label  class="col-sm-2 col-form-label text-white">Volume da titulação</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control"
+                   currencyMask formControlName="volumeTituladoPre">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label text-white">Fator de correção</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control"
+                   currencyMask formControlName="fatorCorrecaoPre">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label text-white">Tc pre condensado</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control"   formControlName="tcPre">
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-4 offset-3">
+            <input type="button" class="btn btn-primary" value="calcular" (click)="mostrarResultadoAcidezPre()">
+          </div>
+        </div>
+        <hr class="bg-light">
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label text-white">Resultado acidez pre condensado</label>
+          <div class="col-sm-4">
+            <input type="text" style="text-align: center" class="form-control bg-info" readonly formControlName="acidezPreResult">
+          </div>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+
